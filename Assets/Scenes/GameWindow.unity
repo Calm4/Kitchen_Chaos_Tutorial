@@ -788,6 +788,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3945745219278820041, guid: 30e70a3c498b09545b75a26118ab1188,
+        type: 3}
+      propertyPath: kitchenObjectSO
+      value: 
+      objectReference: {fileID: 11400000, guid: d415df8981752a34eb2c752969e7dbda,
+        type: 2}
     - target: {fileID: 7732339126853673072, guid: 30e70a3c498b09545b75a26118ab1188,
         type: 3}
       propertyPath: m_RootOrder
@@ -1067,6 +1073,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3945745219278820041, guid: 30e70a3c498b09545b75a26118ab1188,
+        type: 3}
+      propertyPath: tamatoPrefab
+      value: 
+      objectReference: {fileID: 1251413734797279659, guid: 95123fd8f579c854186f679698d96030,
+        type: 3}
     - target: {fileID: 7732339126853673072, guid: 30e70a3c498b09545b75a26118ab1188,
         type: 3}
       propertyPath: m_RootOrder
