@@ -1,25 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UnityEngine.EventSystems;
 
 public class GameInput : MonoBehaviour
 {
-    PlayerInputActions playerInputActions;
+    public event EventHandler OnInteractAction;
+    private PlayerInputActions playerInputActions;
+
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+
+        playerInputActions.Player.Interact.performed += Interact_performed;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        
+        OnInteractAction?.Invoke(this, EventArgs.Empty);
     }
 
     public Vector2 GetMovementVectorNormolized()

@@ -1,9 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
+   
+
+    public event EventHandler<OnSelectedCountedChangedEventArgs> OnSelectedCounterChanged;
+    public class OnSelectedCountedChangedEventArgs : EventArgs
+    {
+        public ClearCounter selectedCounter;
+    }
+
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private GameInput gameInput;
@@ -11,12 +22,34 @@ public class Player : MonoBehaviour
 
     private bool isWalking;
     private Vector3 lastInteractDir;
+    private ClearCounter selectedCounter;
 
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("Больше одного игрока, проблемы с синглтоном!");
+        }
+        Instance = this;
+    }
+    private void Start()
+    {
+        gameInput.OnInteractAction += GameInput_OnInteractAction;
+    }
     private void Update()
     {
         HandleMovement();
         HandleInteractions();
     }
+
+    private void GameInput_OnInteractAction(object sender, System.EventArgs e)
+    {
+        if (selectedCounter != null)
+        {
+            selectedCounter.Interact();
+        }
+    }
+
 
     public bool IsWalking()
     {
@@ -40,13 +73,21 @@ public class Player : MonoBehaviour
         {
             if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
             {
-                clearCounter.Interact();
+                if (clearCounter != selectedCounter)
+                {
+                    SetSelectedCounter(clearCounter);
+
+
+                }
             }
-            
+            else
+            {
+                SetSelectedCounter(null);
+            }
         }
         else
         {
-            Debug.Log("---");
+            SetSelectedCounter(null);
         }
     }
     private void HandleMovement()
@@ -91,5 +132,15 @@ public class Player : MonoBehaviour
         }
         isWalking = moveDir != Vector3.zero;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+    }
+
+    private void SetSelectedCounter(ClearCounter selectedCounter)
+    {
+        this.selectedCounter = selectedCounter;
+
+        OnSelectedCounterChanged?.Invoke(this, new OnSelectedCountedChangedEventArgs
+        {
+            selectedCounter = selectedCounter,
+        });
     }
 }
