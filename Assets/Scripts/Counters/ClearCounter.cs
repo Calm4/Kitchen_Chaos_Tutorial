@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class ClearCounter : BaseCounter
 {
-    [SerializeField] private KitchenObjectSO kitchenObjectSO;
-
-
+    //[SerializeField] private KitchenObjectSO kitchenObjectSO;
     public override void Interact(Player player)
     {
         if (!HasKitchenObject())
@@ -29,7 +27,7 @@ public class ClearCounter : BaseCounter
             {
                 //У игрока в руке есть объект и на столе тоже лежит объект
             }
-            else 
+            else
             {
                 // У игрока нет ничего в руке и на столе лежит объект, то мы его берем в руки
                 GetKitchenObject().SetKitchenObjectParent(player);
