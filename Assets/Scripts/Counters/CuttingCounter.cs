@@ -48,6 +48,14 @@ public class CuttingCounter : BaseCounter, IHasProgress
             // объект лежит на столе
             if (player.HasKitchenObject())
             {
+                if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                {
+                    // в руках тарелка
+                    if (plateKitchenObject.TryAddIngridient(GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        GetKitchenObject().DestroySelf();
+                    }
+                }
                 //У игрока в руке есть объект и на столе тоже лежит объект
             }
             else
