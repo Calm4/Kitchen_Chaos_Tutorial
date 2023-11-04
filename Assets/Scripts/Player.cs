@@ -7,8 +7,8 @@ using UnityEngine.EventSystems;
 public class Player : MonoBehaviour, IKitchenObjectParant
 {
     public static Player Instance { get; private set; }
-   
 
+    public event EventHandler OnPickedSomething;
     public event EventHandler<OnSelectedCountedChangedEventArgs> OnSelectedCounterChanged;
     public class OnSelectedCountedChangedEventArgs : EventArgs
     {
@@ -18,12 +18,12 @@ public class Player : MonoBehaviour, IKitchenObjectParant
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private GameInput gameInput;
-    [SerializeField] private LayerMask countersLayerMask; 
+    [SerializeField] private LayerMask countersLayerMask;
     [SerializeField] private Transform kitchenObjectHoldPoint;
 
     private bool isWalking;
     private Vector3 lastInteractDir;
-    private BaseCounter selectedCounter; 
+    private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
 
     private void Awake()
@@ -164,6 +164,10 @@ public class Player : MonoBehaviour, IKitchenObjectParant
     public void SetKitchenObject(KitchenObject kitchenObject)
     {
         this.kitchenObject = kitchenObject;
+        if (kitchenObject != null)
+        {
+            OnPickedSomething?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public KitchenObject GetKitchenObject()
