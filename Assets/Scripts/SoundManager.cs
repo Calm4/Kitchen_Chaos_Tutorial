@@ -75,7 +75,16 @@ public class SoundManager : MonoBehaviour
 
     public void PlayFootstepsSound(Vector3 position, float volumeMultiplier)
     {
-        PlaySound(audioClipRefsSO.footstep, position, volumeMultiplier * volume);
+        PlaySound(audioClipRefsSO.footstep, position, volumeMultiplier);
+    }
+    
+    public void PlayCountDownSound()
+    {
+        PlaySound(audioClipRefsSO.warning, Vector3.zero);
+    }
+    public void PlayWarningSound(Vector3 position)
+    {
+        PlaySound(audioClipRefsSO.warning, position);
     }
 
     public void ChangeVolume()
